@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+
+_browser() {
+    B=${BROWSER:-xdg-open}
+    [ -z "$1" ] || $B "$@" &
+}
+
+_telegram() {
+    which telegram-desktop >/dev/null && telegram-desktop || /opt/Telegram/Telegram &
+}
+
+_main() {
+    case "$@" in
+        w) $BROWSER & ;;
+        f) st -e nnn ;;
+        d) dm-browse ;;
+        t) _telegram ;;
+        m) st -e neomutt ; pkill -RTMIN+12 dwmblocks ;;
+        e) emacsclient -c ;;
+        c) st -e calcurse ;;
+    esac
+}
+
+_main "$@" &

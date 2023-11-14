@@ -1,0 +1,417 @@
+Uso: vlc [opciones] [emisión] ...
+Puede indicar múltiples emisiones en la línea de comandos.
+Se añadirán a la lista de reproducción.
+El primer objeto indicado se reproducirá primero.
+
+Estilos de opciones:
+  --option  Una opción global para establecer la duración del programa.
+   -option  Una única letra de una --option global.
+   :option  Una opción que solo se aplica a la emisión que la precede
+            y que anula opciones previas.
+
+Sintaxis MRL de emisiones:
+  [[acceso][/demux]://]URL[@[título][:capítulo][-[título][:capítulo]]]
+  [:opción=valor ...]
+
+  Muchas de las --options globales pueden usarse también como :opciones específicas MRL.
+  Se pueden especificar múltiples parejas de :opción=valor.
+
+Sintaxis URL:
+  file://nombre/archivo           archivo multimedia simple
+  http://ip[:puerto]/archivo         URL HTTP
+  ftp://ip[:puerto]/archivo          URL FTP
+  mms://ip[:puerto]/archivo          URL MMS
+  screen://                        Captura de pantalla
+  dvd://[dispositivo]                 Dispositivo DVD
+  vcd://[dispositivo]                Dispositivo VCD
+  [cdda://][dispositivo]               Dispositivo de CD de audio
+  udp://[[<dir. origen>]@[<direccion>][:<puerto>]]
+                                   Emisión UDP enviada por servidor de emisión
+  vlc://pause:<segundos>           Objeto especial para pausar la lista de reproducción cierto tiempo
+  vlc:quit                         Objeto especial para salir de VLC
+
+
+ programa principal (core)
+
+ Audio
+      --audio, --no-audio        Habilitar audio
+                                  (habilitado por defecto)
+      --force-dolby-surround {0 (Automático), 1 (Activar), 2 (Desactivar)} 
+                                 Forzar detección de Dolby Surround
+      --audio-replay-gain-mode {none,track,album} 
+                                 Modo de reproducción de ganancia
+      --audio-replay-gain-preamp <flotante> 
+                                 Reproducir preamplificación
+      --audio-replay-gain-default <flotante> 
+                                 Ganancia de reproducción predeterminada
+      --audio-time-stretch, --no-audio-time-stretch 
+                                 Habilitar estiramiento de tiempo de audio
+                                  (habilitado por defecto)
+      --audio-filter <cadena>    Filtros de audio
+      --audio-visual {any,glspectrum,visual,none} 
+                                 Visualizaciones de audio
+
+ Vídeo
+  -f, --fullscreen, --no-fullscreen 
+                                 Salida de vídeo a pantalla completa
+                                  (deshabilitado por defecto)
+      --video-on-top, --no-video-on-top 
+                                 Siempre sobre todo
+                                  (deshabilitado por defecto)
+      --video-wallpaper, --no-video-wallpaper 
+                                 Habilitar modo fondo de escritorio
+                                  (deshabilitado por defecto)
+      --video-title-show, --no-video-title-show 
+                                 Mostrar título del medio sobre el vídeo
+                                  (habilitado por defecto)
+      --video-title-timeout <entero> 
+                                 Mostrar título del vídeo durante x
+                                 milisegundos
+      --video-title-position {0 (Centro), 1 (Izquierda), 2 (Derecha), 4 (Arriba), 8 (Abajo), 5 (Superior-Izquierda), 6 (Superior-Derecha), 9 (Inferior-Izquierda), 10 (Inferior-Derecha)} 
+                                 Posición del título del vídeo
+      --mouse-hide-timeout <entero> 
+                                 Ocultar cursor y controlador de pantalla
+                                 completa tras x milisegundos
+   Captura de pantalla:
+      --snapshot-path <cadena>   Carpeta de capturas de pantalla de vídeo (o
+                                 nombre de archivo)
+      --snapshot-prefix <cadena> Prefijo del archivo de captura de pantalla
+      --snapshot-format {png,jpg,tiff} 
+                                 Formato captura fotográfica de vídeo
+      --snapshot-preview, --no-snapshot-preview 
+                                 Mostrar previsualización de captura de
+                                 pantalla de vídeo
+                                  (habilitado por defecto)
+      --snapshot-sequential, --no-snapshot-sequential 
+                                 Usar números secuenciales en vez de marcas de
+                                 tiempo
+                                  (deshabilitado por defecto)
+   Propiedades de ventana:
+      --crop <cadena>            Recorte de vídeo
+      --custom-crop-ratios <cadena> 
+                                 Lista de tasas de recorte personalizadas
+      --aspect-ratio <cadena>    Proporción de aspecto de fuente
+      --autoscale, --no-autoscale 
+                                 Autoescalado de vídeo
+                                  (habilitado por defecto)
+      --custom-aspect-ratios <cadena> 
+                                 Lista de tasas de aspecto personalizado
+      --deinterlace {0 (Desactivar), -1 (Automática), 1 (Activar)} 
+                                 Desentrelazar
+      --deinterlace-mode {auto,discard,blend,mean,bob,linear,x,yadif,yadif2x,phosphor,ivtc} 
+                                 Modo de desentrelazado
+      --video-filter <cadena>    Módulo de filtro de vídeo
+      --video-splitter <cadena>  Módulo de filtro de vídeo
+
+ Sub-imágenes
+   Mostrar en pantalla:
+      --spu, --no-spu            Habilitar subimágenes
+                                  (habilitado por defecto)
+      --osd, --no-osd            Mostrar en pantalla
+                                  (habilitado por defecto)
+   Subtítulos:
+      --sub-file <cadena>        Usar archivo de subtítulos
+      --sub-autodetect-file, --no-sub-autodetect-file 
+                                 Autodetectar archivo de subtítulos
+                                  (habilitado por defecto)
+      --sub-text-scale <entero [10 .. 500]> 
+                                 Factor de escalado de subtítulos de texto
+   Superposiciones:
+      --sub-source <cadena>      Módulo de fuente de sub-imágenes
+      --sub-filter <cadena>      Módulo de filtro de sub-imágenes
+   Preferencias de pista:
+      --audio-language <cadena>  Idioma de audio
+      --sub-language <cadena>    Idioma de subtítulos
+      --menu-language <cadena>   Lenguaje de menús
+      --preferred-resolution {-1 (Mejor disponible), 1080 (Alta definición (1080p)), 720 (Alta definición (720p)), 576 (Definición estándar (576 o 480 líneas)), 360 (Baja definición (360 líneas)), 240 (Muy baja definición (240 líneas))} 
+                                 Resolución preferida de vídeo
+   Control de reproducción:
+      --input-repeat <entero [0 .. 65535]> 
+                                 Repeticiones de entrada
+      --input-fast-seek, --no-input-fast-seek 
+                                 Búsqueda rápida
+                                  (deshabilitado por defecto)
+      --rate <flotante>          Velocidad de reproducción
+   Dispositivos predeterminados:
+      --dvd <cadena>             Dispositivo DVD
+      --vcd <cadena>             Dispositivo VCD
+   Avanzado:
+      --input-title-format <cadena> 
+                                 Cambiar el título de acerdo al medio actual
+
+ Entrada
+      --stream-filter <cadena>   Módulo de filtro de emisión
+
+ Lista de reproducción
+   Preferencias de optimización:
+  -Z, --random, --no-random      Ejecutar archivos aleatoriamente
+                                 indefinidamente
+                                  (deshabilitado por defecto)
+  -L, --loop, --no-loop          Repetir todo
+                                  (deshabilitado por defecto)
+  -R, --repeat, --no-repeat      Repetir elemento actual
+                                  (deshabilitado por defecto)
+      --play-and-exit, --no-play-and-exit 
+                                 Reproducir y salir
+                                  (deshabilitado por defecto)
+      --play-and-stop, --no-play-and-stop 
+                                 Reproducir y detener
+                                  (deshabilitado por defecto)
+      --start-paused, --no-start-paused 
+                                 Iniciar pausado
+                                  (deshabilitado por defecto)
+      --playlist-autostart, --no-playlist-autostart 
+                                 Autoiniciar
+                                  (habilitado por defecto)
+      --playlist-cork, --no-playlist-cork 
+                                 Pausa en comunicación de audio
+                                  (habilitado por defecto)
+      --media-library, --no-media-library 
+                                 Usar biblioteca multimedia
+                                  (deshabilitado por defecto)
+      --playlist-tree, --no-playlist-tree 
+                                 Mostrar árbol de lista de reproducción
+                                  (deshabilitado por defecto)
+      --open <cadena>            Emisión predeterminada
+      --auto-preparse, --no-auto-preparse 
+                                 Preanalizar archivos automáticamente
+                                  (habilitado por defecto)
+      --preparse-timeout <entero> 
+                                 Tiempo de espera de preanalizado
+      --metadata-network-access, --no-metadata-network-access 
+                                 Permitir acceso a la red para metadatos
+                                  (habilitado por defecto)
+      --recursive {none,collapse,expand} 
+                                 Comportamiento con subcarpeta
+      --ignore-filetypes <cadena> 
+                                 Extensiones ignoradas
+      --show-hiddenfiles, --no-show-hiddenfiles 
+                                 Mostrar archivos ocultos
+                                  (deshabilitado por defecto)
+  -v, --verbose <entero>         Nivel de detalle (0,1,2)
+      --pidfile <cadena>         Escribir id del proceso a archivo
+      --advanced, --no-advanced  Mostrar opciones avanzadas
+                                  (deshabilitado por defecto)
+      --interact, --no-interact  Interacción de interfaz
+                                  (habilitado por defecto)
+  -I, --intf <cadena>            Módulo de interfaz
+      --extraintf <cadena>       Módulos extra de interfaz
+      --control <cadena>         Ajustes de la interfaz
+
+ Teclas rápidas
+      --hotkeys-y-wheel-mode {-1 (Ignorar), 0 (Control del volumen), 2 (Control de posición), 3 (Control de posición invertido)} 
+                                 Control de rueda de ratón de eje vertical
+      --hotkeys-x-wheel-mode {-1 (Ignorar), 0 (Control del volumen), 2 (Control de posición), 3 (Control de posición invertido)} 
+                                 Control de rueda de ratón de eje horizontal
+      --global-key-toggle-fullscreen <cadena> 
+                                 Pantalla completa
+      --key-toggle-fullscreen <cadena> 
+                                 Pantalla completa
+      --global-key-leave-fullscreen <cadena> 
+                                 Salir de pantalla completa
+      --key-leave-fullscreen <cadena> 
+                                 Salir de pantalla completa
+      --global-key-play-pause <cadena> 
+                                 Reproducir/Pausar
+      --key-play-pause <cadena>  Reproducir/Pausar
+      --global-key-faster <cadena> 
+                                 Más rápido
+      --key-faster <cadena>      Más rápido
+      --global-key-slower <cadena> 
+                                 Más lento
+      --key-slower <cadena>      Más lento
+      --global-key-rate-normal <cadena> 
+                                 Velocidad normal
+      --key-rate-normal <cadena> Velocidad normal
+      --global-key-rate-faster-fine <cadena> 
+                                 Más rápido (preciso)
+      --key-rate-faster-fine <cadena> 
+                                 Más rápido (preciso)
+      --global-key-rate-slower-fine <cadena> 
+                                 Más lento (preciso)
+      --key-rate-slower-fine <cadena> 
+                                 Más lento (preciso)
+      --global-key-next <cadena> Siguiente
+      --key-next <cadena>        Siguiente
+      --global-key-prev <cadena> Anterior
+      --key-prev <cadena>        Anterior
+      --global-key-stop <cadena> Detener
+      --key-stop <cadena>        Detener
+      --global-key-jump-extrashort <cadena> 
+                                 Salto muy corto atrás
+      --key-jump-extrashort <cadena> 
+                                 Salto muy corto atrás
+      --global-key-jump+extrashort <cadena> 
+                                 Salto muy corto adelante 
+      --key-jump+extrashort <cadena> 
+                                 Salto muy corto adelante 
+      --global-key-jump-short <cadena> 
+                                 Salto corto atrás
+      --key-jump-short <cadena>  Salto corto atrás
+      --global-key-jump+short <cadena> 
+                                 Salto corto adelante
+      --key-jump+short <cadena>  Salto corto adelante
+      --global-key-jump-medium <cadena> 
+                                 Medio salto atrás
+      --key-jump-medium <cadena> Medio salto atrás
+      --global-key-jump+medium <cadena> 
+                                 Medio salto adelante
+      --key-jump+medium <cadena> Medio salto adelante
+      --global-key-jump-long <cadena> 
+                                 Salto largo atrás
+      --key-jump-long <cadena>   Salto largo atrás
+      --global-key-jump+long <cadena> 
+                                 Gran salto adelante
+      --key-jump+long <cadena>   Gran salto adelante
+      --global-key-frame-next <cadena> 
+                                 Siguiente fotograma
+      --key-frame-next <cadena>  Siguiente fotograma
+      --global-key-quit <cadena> Salir
+      --key-quit <cadena>        Salir
+      --global-key-vol-up <cadena> 
+                                 Subir volumen
+      --key-vol-up <cadena>      Subir volumen
+      --global-key-vol-down <cadena> 
+                                 Bajar volumen
+      --key-vol-down <cadena>    Bajar volumen
+      --global-key-vol-mute <cadena> 
+                                 Silenciar
+      --key-vol-mute <cadena>    Silenciar
+      --global-key-audio-track <cadena> 
+                                 Bucle en pista de audio
+      --key-audio-track <cadena> Bucle en pista de audio
+      --global-key-audiodevice-cycle <cadena> 
+                                 Rotar por dispositivos de audio
+      --key-audiodevice-cycle <cadena> 
+                                 Rotar por dispositivos de audio
+      --global-key-subtitle-revtrack <cadena> 
+                                 Rotar por pista de subtítulos en orden
+                                 intertido
+      --key-subtitle-revtrack <cadena> 
+                                 Rotar por pista de subtítulos en orden
+                                 intertido
+      --global-key-subtitle-track <cadena> 
+                                 Rotar por pista de subtítulos
+      --key-subtitle-track <cadena> 
+                                 Rotar por pista de subtítulos
+      --global-key-subtitle-toggle <cadena> 
+                                 Alternar subtítulos
+      --key-subtitle-toggle <cadena> 
+                                 Alternar subtítulos
+      --global-key-program-sid-next <cadena> 
+                                 Rotar ID de servicio del siguiente programa
+      --key-program-sid-next <cadena> 
+                                 Rotar ID de servicio del siguiente programa
+      --global-key-program-sid-prev <cadena> 
+                                 Rotar sobre el ID de servicio anterior
+      --key-program-sid-prev <cadena> 
+                                 Rotar sobre el ID de servicio anterior
+      --global-key-aspect-ratio <cadena> 
+                                 Rotar proporción fuente
+      --key-aspect-ratio <cadena> 
+                                 Rotar proporción fuente
+      --global-key-crop <cadena> Rotar recorte de vídeo
+      --key-crop <cadena>        Rotar recorte de vídeo
+      --global-key-toggle-autoscale <cadena> 
+                                 Cambiar autoescalado
+      --key-toggle-autoscale <cadena> 
+                                 Cambiar autoescalado
+      --global-key-incr-scalefactor <cadena> 
+                                 Incrementar factor de escalado
+      --key-incr-scalefactor <cadena> 
+                                 Incrementar factor de escalado
+      --global-key-decr-scalefactor <cadena> 
+                                 Decrementar factor de escalado
+      --key-decr-scalefactor <cadena> 
+                                 Decrementar factor de escalado
+      --global-key-deinterlace <cadena> 
+                                 Alternar desentrelazado
+      --key-deinterlace <cadena> Alternar desentrelazado
+      --global-key-deinterlace-mode <cadena> 
+                                 Rotar modos de desentrelazado
+      --key-deinterlace-mode <cadena> 
+                                 Rotar modos de desentrelazado
+      --global-key-intf-show <cadena> 
+                                 Mostrar controlador a pantalla completa
+      --key-intf-show <cadena>   Mostrar controlador a pantalla completa
+      --global-key-wallpaper <cadena> 
+                                 Cambiar modo fondo de escritorio en salida de
+                                 vídeo
+      --key-wallpaper <cadena>   Cambiar modo fondo de escritorio en salida de
+                                 vídeo
+      --global-key-random <cadena> 
+                                 Aleatorio
+      --key-random <cadena>      Aleatorio
+      --global-key-loop <cadena> Normal/Bucle/Repetir
+      --key-loop <cadena>        Normal/Bucle/Repetir
+      --global-key-zoom-quarter <cadena> 
+                                 1:4 cuarto
+      --key-zoom-quarter <cadena> 
+                                 1:4 cuarto
+      --global-key-zoom-half <cadena> 
+                                 1:2 medio
+      --key-zoom-half <cadena>   1:2 medio
+      --global-key-zoom-original <cadena> 
+                                 1:1 original
+      --key-zoom-original <cadena> 
+                                 1:1 original
+      --global-key-zoom-double <cadena> 
+                                 2:1 doble
+      --key-zoom-double <cadena> 2:1 doble
+   Tamaños de salto:
+      --extrashort-jump-size <entero> 
+                                 Longitud de salto muy corto
+      --short-jump-size <entero> Longitud de salto corto
+      --medium-jump-size <entero> 
+                                 Longitud de salto medio
+      --long-jump-size <entero>  Longitud de salto grande
+      --bookmark1 <cadena>       Favorito 1 de la lista de reproducción
+      --bookmark2 <cadena>       Favorito 2 de la lista de reproducción
+      --bookmark3 <cadena>       Favorito 3 de la lista de reproducción
+      --bookmark4 <cadena>       Favorito 4 de la lista de reproducción
+      --bookmark5 <cadena>       Favorito 5 de la lista de reproducción
+      --bookmark6 <cadena>       Favorito 6 de la lista de reproducción
+      --bookmark7 <cadena>       Favorito 7 de la lista de reproducción
+      --bookmark8 <cadena>       Favorito 8 de la lista de reproducción
+      --bookmark9 <cadena>       Favorito 9 de la lista de reproducción
+      --bookmark10 <cadena>      Favorito 10 de la lista de reproducción
+  -h, --help, --no-help          imprime ayuda de VLC (puede combinarse con
+                                 --advanced y --help-verbose)
+                                  (deshabilitado por defecto)
+  -H, --full-help, --no-full-help 
+                                 Ayuda exhaustiva para VLC y sus módulos
+                                  (deshabilitado por defecto)
+      --longhelp, --no-longhelp  imprime ayuda de VLC y sus módulos (puede
+                                 combinarse con --advanced y --help-verbose)
+                                  (deshabilitado por defecto)
+      --help-verbose, --no-help-verbose 
+                                 pide más locuacidad al mostrar la ayuda
+                                  (deshabilitado por defecto)
+  -l, --list, --no-list          imprime lista de módulos disponibles
+                                  (deshabilitado por defecto)
+      --list-verbose, --no-list-verbose 
+                                 imprime lista de módulos disponibles con
+                                 detalles extra
+                                  (deshabilitado por defecto)
+  -p, --module <cadena>          imprimir ayuda de un módulo específico (puede
+                                 combinarse con --advanced y --help-verbose).
+                                 Preceda el nombre del módulo con = para
+                                 coincidencias exactas.
+      --ignore-config, --no-ignore-config 
+                                 no se cargará opción de configuración ni se
+                                 guardará al archivo de configuración
+                                  (habilitado por defecto)
+      --reset-config, --no-reset-config 
+                                 restaurar la actual configuración a los
+                                 valores predeterminados
+                                  (deshabilitado por defecto)
+      --reset-plugins-cache, --no-reset-plugins-cache 
+                                 restaura la caché de los complementos actuales
+                                  (deshabilitado por defecto)
+      --version, --no-version    imprimir información de versión
+                                  (deshabilitado por defecto)
+      --config <cadena>          Usar archivo de configuración alternativo
+
+Nota: añada --advanced a su línea de comandos para ver opciones avanzadas.
+
+Para obtener ayuda exhaustiva, use '-H'.
