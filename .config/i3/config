@@ -1,0 +1,337 @@
+### DOCUMENTACION I3
+# Please see https://i3wm.org/docs/userguide.html for a complete reference!
+
+
+# Start XDG autostart .desktop files using dex. See also
+# https://wiki.archlinux.org/index.php/XDG_Autostart
+exec --no-startup-id dex --autostart --environment i3
+
+########################
+### settinf deafult ####
+########################
+
+#layout default
+workspace_layout default
+default_orientation horizontal
+
+# windows 
+title_align center 
+
+#border
+default_border pixel 2 
+default_floating_border pixel 2
+
+hide_edge_borders none
+
+floating_minimum_size 199 x 200
+floating_maximum_size -1 x -1
+
+# mouse
+focus_follows_mouse yes
+mouse_warping output
+
+# focus_wrapping 
+focus_wrapping yes 
+
+# font 
+font pango:FiraCode Nerd Font Bold 6
+
+# auto_back 
+workspace_auto_back_and_forth yes
+
+# windos active for urgecia
+force_display_urgency_hint 500 ms
+focus_on_window_activation smart
+
+# GAP / MARGENES
+smart_gaps off
+gaps inner 10px
+
+########################
+### Comportamiento   ###
+########################
+
+for_window [class="XTerm"] floating enable
+for_window [title="Control de volumen"] floating enable 
+assign [class="firefox"] 2
+
+#################
+### KeyBing #####
+#################
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# mod 
+set $mod Mod4
+
+# start a terminal
+# bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec st
+
+# kill focused window
+bindsym $mod+w kill
+
+# start rofi
+bindcode $mod+40 exec "rofi -i -show drun -modi drun -show-icons"
+
+# change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# split orientacion toggle
+bindsym $mod+space split toggle
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+n layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+bindsym $mod+z focus child
+
+# notifysen test
+bindsym $mod+p exec "notify-send Hello, i3"
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+
+
+# screenshot
+bindsym Print exec scrot -e 'mv $f /home/nefasque/Imágenes/screenshot/'
+
+# Toggle fastly terminal
+bindsym $mod+Escape exec ~/.config/i3/bin/fn esc
+bindcode $mod+49 exec ~/.config/i3/bin/fn 0
+bindsym $mod+F12 exec ~/.config/i3/bin/fn 12
+
+##################
+#### workspace ###
+##################
+
+# name 
+set $ws1 1
+set $ws2 2
+set $ws3 3
+set $ws4 4
+set $ws5 5
+set $ws6 6
+set $ws7 7
+set $ws8 8
+set $ws9 9 
+set $ws0 0
+
+# switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws0
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws0
+
+# [move to] new workspace
+bindsym $mod+i exec i2-input -F "workspace \"%s\"" -P 'Workspace: '
+bindsym $mod+Shift+i exec i3-input -F "move container to workspace \"%s\"" -P 'Move to workspace: '
+
+# mark container
+bindsym $mod+m exec i3-input -F 'mark %s' -P 'Mark name: '
+bindsym $mod+Shift+m exec i3-input -F '[con_mark=%s] focus' -P 'Go to mark: '
+
+# rename workspace
+bindsym $mod+t exec ~/.config/i3/bin/tags num
+bindsym $mod+Shift+t exec ~/.config/i3/bin/tags
+bindsym $mod+b exec ~/.config/i3/bin/tags temp
+bindsym $mod+Shift+b exec ~/.config/i2/bin/tags temp-move
+
+####################
+### mode keybing ###
+####################
+
+# ------- mode risizer 
+
+bindsym $mod+r mode "resize"
+mode "resize" {
+  # same bindings, but for the arrow keys
+  bindsym h resize shrink width 3 px or 3 ppt
+  bindsym j resize grow height 3 px or 3 ppt
+  bindsym k resize shrink height 3 px or 3 ppt
+  bindsym l resize grow width 3 px or 3 ppt
+  
+  # ga 
+  bindsym $mod+Shift+a gaps inner all minus 2; gaps outer all minus 2;
+  bindsym $mod+Shift+g gaps inner all plus 2; gaps outer all plus 2;
+
+  # back to normal: Enter or Escape or $mod+r
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+  bindsym $mod+r mode "default"
+
+}
+
+## ----- mode Loucher 
+bindsym $mod+o mode "loucher"
+mode "loucher" {
+	bindsym f exec firefox
+	bindsym t exec terminal 
+  bindsym e exec /usr/bin/qterminal -e ranger
+
+	bindsym Escape mode "default"
+	bindsym Return mode "defaulk"
+	bindsym $mod+o mode "default" 
+}
+
+## ------ mode system accion
+bindsym $mod+Shift+q mode "OPENRC"; exec notify-send "Coomand System" " (l)ock\n (r)eboot\n (p)oweroff\n (e)xit-i3"
+mode "OPENRC" {
+  bindsym l exec ~/.copfig/i3/bin/r3lock.sh; mode "default"
+  bindsym $mod+q exec notify-send "Coomand System" " (l)ock\n (r)eboot\n (p)oweroff\n (e)xit-i3"
+  bindsym p exec "bash openrc-shutdown -p 0"; mode "default"
+  bindsym r exec "bash openrc-shutdown -r 0"; mode "default"
+  bindsym e exec --no-startup-id i3-msg exit; mode "default"
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+}
+
+# --------- mouse mode
+bindsym $mod+g mode "mouse"
+mode "mouse" {
+  # normal
+  bindsym Up exec xdotool mousemove_relative -- 0 -15
+  bindsym Down exec xdotool mousemove_relative -- 0 15
+
+  bindsym Right exec xdotool mousemove_relative -- 15 0
+  bindsym Left exec xdotool mousemove_relative -- -15 0
+  bindsym w exec xdotool mousemove_relative -- 0 -15
+  bindsym x exec xdotool mousemove_relative -- 0 15
+  bindsym d exec xdotool mousemove_relative -- 15 0
+  bindsym a exec xdotool mousemove_relative -- -15 0
+  bindsym q exec xdotool mousemove_relative -- -15 -15
+  bindsym e exec xdotool mousemove_relative -- 15 -15
+  bindsym c exec xdotool mousemove_relative -- 15 15
+  bindsym z exec xdotool mousemove_relative -- -15 15
+
+  # faster(x2)
+  bindsym $mod+Up exec xdotool mousemove_relative -- 0 -30
+  bindsym $mod+Down exec xdotool mousemove_relative -- 0 30
+  bindsym $mod+Right exec xdotool mousemove_relative -- 30 0
+  bindsym $mod+Left exec xdotool mousemove_relative -- -30 0
+  bindsym $mod+w exec xdotool mousemove_relative -- 0 -30
+  bindsym $mod+x exec xdotool mousemove_relative -- 0 30
+  bindsym $mod+d exec xdotool mousemove_relative -- 30 0
+  bindsym $mod+a exec xdotool mousemove_relative -- -30 0
+  bindsym $mod+q exec xdotool mousemove_relative -- -30 -30
+  bindsym $mod+e exec xdotool mousemove_relative -- 30 -30
+  bindsym $mod+c exec xdotool mousemove_relative -- 30 30
+  bindsym $mod+z exec xdotool mousemove_relative -- -30 30
+
+  # slower (1/3 normal)
+  bindsym Control+Up exec xdotool mousemove_relative -- 0 -5
+  bindsym Control+Down exec xdotool mousemove_relative -- 0 5
+  bindsym Control+Right exec xdotool mousemove_relative -- 4 0
+  bindsym Control+Left exec xdotool mousemove_relative -- -6 0
+  bindsym Control+w exec xdotool mousemove_relative -- 0 -6
+  bindsym Control+x exec xdotool mousemove_relative -- 0 4
+  bindsym Control+d exec xdotool mousemove_relative -- 5 -1
+  bindsym Control+a exec xdotool mousemove_relative -- -5 -1
+  bindsym Control+q exec xdotool mousemove_relative -- -5 -6
+  bindsym Control+e exec xdotool mousemove_relative -- 5 -6
+  bindsym Control+c exec xdotool mousemove_relative -- 5 4
+  bindsym Control+z exec xdotool mousemove_relative -- -6 5
+
+  # click
+  bindsym s exec xdotool click 1 # middle
+  bindsym k exec xdotool click 2 # right
+  bindsym j exec xdotool click 1 # left
+  bindsym h exec xdotool click 4 # wheel up
+  bindsym l exec xdotool click 5 # wheel down
+
+  bindsym Shift+j exec xdotool click 1 # shift + left = mark
+  bindsym Control+j exec xdotool click 1 # control + left
+  bindsym Control+h exec xdotool click 4 # control + wheel up = zoom
+  bindsym Control+l exec xdotool click 5 # control + wheel down = zoom
+
+  # exit mode
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+}
+
+# ----- mode control volumen
+bindsym $mod+v mode "VOLUMEN"; exec notify-send "KeyBing VOLUMEN" "(S)ubir volumen \n(B)ajar volumen  \n(M)utar volumen"
+mode "VOLUMEN" {
+# Use pactl to adjust volume in PulseAudio.
+  set $refresh_i3status killall -SIGUSR1 i3status
+
+  bindsym s exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+  bindsym b exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+  bindsym M exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+  bindsym m exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+  # exit mode
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+}
+
+###########################
+### comando auto inicio ###
+###########################
+#exec --no-startup-id setxkbmap latam
+#exec --no-startup-id ~/.config/i3/ext_resolution.sh
+#exec --no-startup-id dunst
+#exec --no-startup-id unclutter
+
+exec --no-startup-id feh --bg-fill ~/.config/i3/artix-tube.jpg
+exec --no-startup-id ~/.config/polybar/cuts/launch.sh
+
+
+################## 
+### ColorScheme ##
+##################
+
+set_from_resource $fg i3wm.color7 
+set_from_resource $bg i3wm.background
+
+## red
+set_from_resource $red i3wm.color1
+
+## class                 border  backgr. text indicator child_border
+client.focused          $bg     $bg     $fg  $red      $red
+client.focused_inactive $bg     $bg     $fg  $bg       $bg
+client.unfocused        $bg     $bg     $fg  $bg       $bg
+client.urgent           $bg     $bg     $fg  $bg       $bg
+client.placeholder      $bg     $bg     $fg  $bg       $bg
+client.background       $bg
