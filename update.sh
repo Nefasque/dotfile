@@ -23,12 +23,16 @@ array=(
 # copy only file with changed 
 updates=()
 for i in "${array[@]}"; do
+  if "$(ls -d "$i")"; then
+    echo "copy $i"
+    exit
+  fi
+
+
+
   if [[ $(diff -rq ~/.config/"$i" .config/"$i") ]]; then
     echo "update $i"
     rm -rf .config/"$i"
-    cp -rf ~/.config/"$i" .config/
-    updates+=("$i")
-  else 
     cp -rf ~/.config/"$i" .config/
     updates+=("$i")
   fi
@@ -41,6 +45,6 @@ if [[ ${#updates[@]} == 0 ]]; then
 fi
 
 
-git add .
-git commit -m "update ${updates[*]}"
-git push origin master
+# git add .
+# git commit -m "update ${updates[*]}"
+# git push origin master

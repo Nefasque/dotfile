@@ -1,22 +1,25 @@
 #!/bin/bash
 
 array=( 
-  "i3" 
-  "polybar"
-  "cmus"
-  "dunst"
-  "neofetch"
-  "picom"
-  "ranger"
-  "qterminal.org"
-  "rofi"
-  "wal"
-  "zathura"
+  ".config/i3" 
+  ".config/polybar"
+  ".config/cmus"
+  ".config/dunst"
+  ".config/neofetch"
+  ".tmux"
+  ".config/picom"
+  ".config/ranger"
+  ".config/qterminal.org"
+  ".config/rofi"
+  ".config/wal"
+  ".config/zathura"
 )
 
 for i in "${array[@]}"; do
-  if [[ $(diff -rq ~/.config/"$i" .config/"$i") ]]; then
+  if [[ $(diff -rq ~/"$i" ./"$i") ]; then
     echo "Hay cambios"
+  else
+    echo "No hay cambios"
   fi
 done
 
