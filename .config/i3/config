@@ -54,6 +54,7 @@ gaps inner 10px
 for_window [class="XTerm"] floating enable
 for_window [title="Control de volumen"] floating enable 
 assign [class="firefox"] 2
+assign [class="discord"] 4
 
 #################
 ### KeyBing #####
@@ -315,8 +316,9 @@ mode "VOLUMEN" {
 #exec --no-startup-id unclutter
 
 exec --no-startup-id feh --bg-fill ~/.config/i3/artix-tube.jpg
-exec --no-startup-id ~/.config/polybar/cuts/launch.sh
+exec --no-startup-id ~/.config/polybar/cuts/launch.sh &
 
+#exec_always ~/workspace/repos/Wallpapers/ramdon.sh &
 
 ################## 
 ### ColorScheme ##
@@ -328,9 +330,9 @@ set_from_resource $bg i3wm.background
 ## red
 set_from_resource $red i3wm.color1
 
-## class                 border  backgr. text indicator child_border
-client.focused          $bg     $bg     $fg  $red      $red
-client.focused_inactive $bg     $bg     $fg  $bg       $bg
+## class                border  backgr. text indicator child_border
+client.focused          $red    $red    $bg  $red      $red
+client.focused_inactive $red    $red    $bg  $bg       $bg
 client.unfocused        $bg     $bg     $fg  $bg       $bg
 client.urgent           $bg     $bg     $fg  $bg       $bg
 client.placeholder      $bg     $bg     $fg  $bg       $bg

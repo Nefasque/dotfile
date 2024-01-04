@@ -5,46 +5,20 @@ mkdir -p .config &>/dev/null
 
 # array of test
 array=( 
-  "i3" 
-  "polybar"
-  "cmus"
-  "dunst"
-  "neofetch"
-  "picom"
-  "ranger"
-  "qterminal.org"
-  "rofi"
-  "wal"
-  "zathura"
-  "../.tmux/"
+  ".config/i3" 
+  ".config/polybar"
+  ".config/cmus"
+  ".config/dunst"
+  ".config/neofetch"
+  ".config/picom"
+  ".config/ranger"
+  ".config/qterminal.org"
+  ".config/rofi"
+  ".config/wal"
+  ".config/zathura"
 )
 
-
-# copy only file with changed 
-updates=()
 for i in "${array[@]}"; do
-  if "$(ls -d "$i")"; then
-    echo "copy $i"
-    exit
-  fi
-
-
-
-  if [[ $(diff -rq ~/.config/"$i" .config/"$i") ]]; then
-    echo "update $i"
-    rm -rf .config/"$i"
-    cp -rf ~/.config/"$i" .config/
-    updates+=("$i")
-  fi
+  rm -rf ./"$i"
+  cp -rf ~/"$i" ./"$i"
 done
-
-# case of no update
-if [[ ${#updates[@]} == 0 ]]; then
-  echo "no updates"
-  exit
-fi
-
-
-# git add .
-# git commit -m "update ${updates[*]}"
-# git push origin master
