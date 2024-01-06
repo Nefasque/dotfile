@@ -16,6 +16,7 @@ array=(
   ".config/rofi"
   ".config/wal"
   ".config/zathura"
+  ".bashrc"
 )
 
 for i in "${array[@]}"; do
