@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# archivo de prueba
+
+case $BLOCK_BUTTON in
+	1) notify-send "case 1";; # button left click
+	2) notify-send "case 2";; # button middle click
+	3) notify-send "case 3";; # button right click
+	4) notify-send "case 4";; # scroll up
+	5) notify-send "case 5";; # scroll down
+	6) notify-send "case 6";; # nose wey T_T
+esac
+
+echo " test working !! "

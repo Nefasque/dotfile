@@ -1,0 +1,162 @@
+#!/bin/bash
+
+index=$(yq -r ".partition_index" "$var" ) || index=0
+fmt=$(yq -r ".partition_format" "$var" ) || fmt=1
+
+
+#########
+# Funciones
+######
+
+get_pcent(){
+  path=$1
+  pcent=$(df -h "$path" | awk '/[0-9]/ {print $5}')
+  pcent="${pcent%%%}"
+  return "$pcent"
+}
+
+tam_text() {
+  path=$1
+  if ((pcent >= 90)); then tam="$(df -h "$path" | awk '/[0-9]/ {print $3 "/" $2}')"
+  elif ((pcent >= 50)); then tam="$(df -h "$path" | awk '/[0-9]/ {print $3 "/" $2}')"
+  else tam="$(df -h "$path" | awk '/[0-9]/ {print $3 "/" $2}')"
+  fi
+  echo "$tam"
+}
+
+tam_icon(){
+  pcent=$1
+  if (( pcent >= 93 )); then   tam=""
+  elif (( pcent >= 86 )); then tam=""
+  elif (( pcent >= 79 )); then tam=""
+  elif (( pcent >= 72 )); then tam=""
+  elif (( pcent >= 65 )); then tam=""
+  elif (( pcent >= 58 )); then tam=""
+  elif (( pcent >= 51 )); then tam=""
+  elif (( pcent >= 44 )); then tam=""
+  elif (( pcent >= 37 )); then tam=""
+  elif (( pcent >= 30 )); then tam=""
+  elif (( pcent >= 23 )); then tam=""
+  elif (( pcent >= 16 )); then tam=""
+  elif (( pcent >= 9 )); then  tam=""
+  else tam=""
+  fi
+
+  echo "$tam"
+}
+
+tam_progresbar () {
+  pcent=$1
+
+  bar=""
+  for (( i = 0; i < 100; i=i+15 )); do
+    if (( i <= pcent )); then
+      bar+="■"
+    else
+      bar+="□"
+    fi
+  done
+
+  bar+=" $pcent%"
+  echo "$bar"
+}
+
+icons(){
+  local location=$1
+  local withName=$2
+
+  case "$location" in
+    "/home"* ) icon="" ;;
+    "/mnt"* ) icon="" ;;
+    "/media/"* ) icon="󰋊" ;;
+    "/*") icon="";;
+    *) icon="";;
+  esac
+
+  if [ "$withName" = "" ]; then
+    icon+=" $(basename "$location")"
+  fi
+
+  echo "$icon"
+}
+
+notify-spaceDisk(){
+  local particiones=("$@")
+  
+  body=""
+  for i in "${particiones[@]}"; do
+    icon=$(icons "$i")
+
+    pcent=$(df -h "${partitions[index]}" | awk '/[0-9]/ {print $5}')
+    pcent="${pcent%%%}"
+
+    tam=$(tam_text "$i" "$pcent")
+
+    body+="$icon $tam \n"
+  done
+
+  notify-send "spaceDisk" "$body"
+}
+
+tam_all_icons(){
+  local particiones=("$@")
+
+  body=""
+
+  for i in "${particiones[@]}"; do
+    icon=$(icons "$i" 1)
+    get_pcent "$i"
+    pcent=$?
+
+
+    tam=$(tam_icon "$pcent")
+    body+=" $icon $tam "
+  done
+
+  echo "$body"
+}
+
+
+####
+# MAIN 
+### 
+# Obtener las rutas de las particiones montadas
+lsblk=$(lsblk --output mountpoint |  grep '/' )
+cant_lines=$(echo "$lsblk" | wc -l)
+partitions=()
+
+for (( i = 0; i < $cant_lines; i++ )); do
+   partitions[i]="$(echo "$lsblk" | awk 'NR=='"(($i+1))"' {print}')"
+done
+
+case $BLOCK_BUTTON in
+  1) if (($index < ${#partitions[@]} -1 )); then index=$((index+1)); else index=0; fi ;;
+	2) notify-spaceDisk "${partitions[@]}"; ;;
+  3) if (($fmt < 4)); then fmt=$((fmt+1)); else fmt=1; fi ;;
+esac
+
+get_pcent "${partitions[$index]}"
+pcent=$?
+
+
+case $fmt in
+  1) 
+    tam=$(tam_text "${partitions[$index]}")
+    icon=$(icons "${partitions[$index]}")
+    message="$icon: $tam" ;;
+  2)
+    tam=$(tam_icon "$pcent")
+    icon=$(icons "${partitions[$index]}" 1 )
+    message="$icon $tam" ;; 
+  3) 
+    tam=$(tam_progresbar "$pcent")
+    icon=$(icons "${partitions[$index]}")
+    message="$icon: $tam"
+    ;;
+  4) message=$(tam_all_icons "${partitions[@]}");;
+esac
+
+yq -i ".partition_index = $index" "$var"
+yq -i ".partition_format = $fmt" "$var"
+
+echo "$message"

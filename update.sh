@@ -17,9 +17,11 @@ array=(
   ".config/wal"
   ".config/zathura"
   ".bashrc"
+  ".local/bin/statusbar/"
 )
 
 for i in "${array[@]}"; do
   rm -rf ./"$i"
+  mkdir -p ./"$i"
   cp -rf ~/"$i" ./"$i"
 done

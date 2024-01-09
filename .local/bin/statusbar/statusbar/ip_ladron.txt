@@ -1,0 +1,16 @@
+	date	9/1/24 17:51:49	
+  ip	186.14.67.168	
+  browser	Chrome 120	
+  platform	Android 10	
+  isp	Corporación Telemic C.A.	
+  useragent	Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36	
+  country	Venezuela	
+  city	Barquisimeto	
+  state	Lara	
+  referer	HTTP-Referer está vacío	
+  bot	Not	
+  latitude	10.06770000000000000	
+  longitude	-69.28410000000000000	
+  accuracy	ip	
+  accuracy-radius	IP
+

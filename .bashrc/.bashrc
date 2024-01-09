@@ -2,8 +2,7 @@
 #
 
 [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
-    . /usr/share/bash-completion/bash_completion
-# If not running interactively, don't do anything
+    . /usr/share/bash-completion/bash_completion # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
 alias ls='ls --color=auto'
@@ -57,7 +56,6 @@ export PATH="$PATH:/home/nefasque/.local/bin"
 # auto jump start 
 . /usr/share/autojump/autojump.bash
 
-# 
 # alias record='cd ${BYZANZ_REPO_CLONE_PATH} && ./byzanz-record-region.sh'
 alias record='cd ~/workspace/repos/byzanz/ && ./byzanz-record-region.sh'
 alias byzanz-record='~/workspace/repos/byzanz/byzanz-record-region.sh'
@@ -74,3 +72,6 @@ export PS1=" \[\e[31m\] \u  \[\e[m\]\[\e[32m\] \w\[\e[m\]\[\e[35m\]\`pa
 #(cat ~/.cache/wal/sequences &)
 #cat ~/.cache/wal/sequences
 #source ~/.cache/wal/colors-tty.sh
+#
+#
+#

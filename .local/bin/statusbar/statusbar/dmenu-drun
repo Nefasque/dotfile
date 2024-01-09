@@ -1,0 +1,8 @@
+#!/bin/bash
+
+color0="'$(xrdb -query | grep -m 1 "color0" | awk '{print $2}')'"
+color1="'$(xrdb -query | grep -m 1 "color4" | awk '{print $2}')'"
+color7="'$(xrdb -query | grep -m 1 "color7" | awk '{print $2}')'"
+
+
+j4-dmenu-desktop --dmenu="dmenu -p 'Run' -fn 'Hack Nerd Font' -nb $color0 -nf $color7 -sb $color1 -sf $color0"
