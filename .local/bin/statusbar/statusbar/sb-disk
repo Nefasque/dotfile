@@ -159,4 +159,4 @@ esac
 yq -i ".partition_index = $index" "$var"
 yq -i ".partition_format = $fmt" "$var"
 
-echo "$message"
+echo " $message "

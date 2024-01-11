@@ -1,0 +1,66 @@
+#!/bin/bash
+
+function cmd_git {
+  command git "$@"
+}
+
+function git_stats_add {
+  local stats=$(echo "$1" | grep -o -P "A" | wc -l ) 
+  [[ $stats == 0 ]] &&  return
+  echo "\e[32m $stats\e[0m"
+}
+
+function git_stats_remove {
+  local stats=$(echo "$1" | grep -o -P "D" | wc -l ) 
+  [[ $stats == "0" ]] && return
+  echo "\e[31m $stats\e[0m"
+}
+
+function git_stats_modified {
+  local stats=$(echo "$1" | grep -o -P "M" | wc -l )
+  [[ $stats == "0" ]] && return
+  echo "\e[34m $stats\e[0m"
+}
+
+function git_stats_untracked {
+  local stats=$(echo "$1" | grep -o "??" | wc -l )
+  [[ $stats == "0" ]] && return
+  echo " $stats"
+}
+
+function git_stats_rename {
+  local stats=$(echo "$1" | grep -o "R" | wc -l )
+  [[ $stats == "0" ]] && return
+  echo " $stats"
+}
+
+function git_branch(){
+    git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
+function git_status_dirty {
+  local dirty=$(cmd_git status -s 2> /dev/null | awk '{print $1}')
+  add=$(git_stats_add "$dirty")
+  remove=$(git_stats_remove "$dirty")
+  modified=$(git_stats_modified "$dirty")
+  untracked=$(git_stats_untracked "$dirty")
+  rename=$(git_stats_rename "$dirty")
+  echo "$add $remove $modified $untracked $rename"
+}
+
+# Git: branch/detached head, dirty status
+function prompt_git {
+  if cmd_git rev-parse --is-inside-work-tree &>/dev/null; then
+    stat=$(git_status_dirty)
+    name=$(git_branch)
+
+    if [[ -n $stat ]]; then
+      # echo -e "\e[33mTexto en color amarillo\e[0m"
+      name="\e[33m$name\e[0m"
+    fi
+
+    echo -e "$name ${stat}"
+  fi
+}
+
+prompt_git

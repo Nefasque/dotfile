@@ -60,18 +60,12 @@ export PATH="$PATH:/home/nefasque/.local/bin"
 alias record='cd ~/workspace/repos/byzanz/ && ./byzanz-record-region.sh'
 alias byzanz-record='~/workspace/repos/byzanz/byzanz-record-region.sh'
 
-parse_git_branch() {
-    git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
-}
 
+export PS1=" \[\e[31m\] \u  \[\e[m\]\[\e[32m\] \w\[\e[m\]\[\e[35m\]\`git_status_promt\`\[\e[m\]\\n~>"
 
-export PS1=" \[\e[31m\] \u  \[\e[m\]\[\e[32m\] \w\[\e[m\]\[\e[35m\]\`parse_git_branch\`\[\e[m\]\\n~>"
 
 
 # loader colorscheme of wal. 
 #(cat ~/.cache/wal/sequences &)
 #cat ~/.cache/wal/sequences
 #source ~/.cache/wal/colors-tty.sh
-#
-#
-#

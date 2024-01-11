@@ -18,6 +18,7 @@ array=(
   ".config/zathura"
   ".bashrc"
   ".local/bin/statusbar/"
+  ".local/bin/git_status_promt"
 )
 
 for i in "${array[@]}"; do
