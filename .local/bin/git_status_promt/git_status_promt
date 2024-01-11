@@ -7,31 +7,51 @@ function cmd_git {
 function git_stats_add {
   local stats=$(echo "$1" | grep -o -P "A" | wc -l ) 
   [[ $stats == 0 ]] &&  return
-  echo "\e[32m $stats\e[0m"
+  echo "\e[32m $stats\e[0m "
 }
 
 function git_stats_remove {
   local stats=$(echo "$1" | grep -o -P "D" | wc -l ) 
   [[ $stats == "0" ]] && return
-  echo "\e[31m $stats\e[0m"
+  echo "\e[31m $stats\e[0m "
 }
 
 function git_stats_modified {
   local stats=$(echo "$1" | grep -o -P "M" | wc -l )
   [[ $stats == "0" ]] && return
-  echo "\e[34m $stats\e[0m"
+  echo "\e[34m $stats\e[0m "
+}
+
+
+
+function git_stats_rename {
+  local stats=$(echo "$1" | grep -o "R" | wc -l )
+  [[ $stats == "0" ]] && return
+  echo "\e[35m $stats\e[0m "
+}
+
+function git_stats_cherry {
+  local stats=$(echo "$1" | grep -o "C" | wc -l )
+  [[ $stats == "0" ]] && return
+  echo "\e[36m󰑕 $stats\e[0m "
+}
+
+function git_stats_merge {
+  local stats=$(echo "$1" | grep -o "U" | wc -l )
+  [[ $stats == "0" ]] && return
+  echo "\e[33m󰦦 $stats\e[0m "
 }
 
 function git_stats_untracked {
   local stats=$(echo "$1" | grep -o "??" | wc -l )
   [[ $stats == "0" ]] && return
-  echo " $stats"
+  echo " $stats "
 }
 
-function git_stats_rename {
-  local stats=$(echo "$1" | grep -o "R" | wc -l )
+function git_stats_conflict {
+  local stats=$(echo "$1" | grep -o "!" | wc -l )
   [[ $stats == "0" ]] && return
-  echo " $stats"
+  echo "\e[31m $stats\e[0m "
 }
 
 function git_branch(){
@@ -40,12 +60,18 @@ function git_branch(){
 
 function git_status_dirty {
   local dirty=$(cmd_git status -s 2> /dev/null | awk '{print $1}')
-  add=$(git_stats_add "$dirty")
-  remove=$(git_stats_remove "$dirty")
-  modified=$(git_stats_modified "$dirty")
-  untracked=$(git_stats_untracked "$dirty")
-  rename=$(git_stats_rename "$dirty")
-  echo "$add $remove $modified $untracked $rename"
+  local stat=""
+
+  stat+="$(git_stats_add "$dirty")"
+  stat+="$(git_stats_remove "$dirty")"
+  stat+="$(git_stats_modified "$dirty")"
+  stat+="$(git_stats_rename "$dirty")"
+  stat+="$(git_stats_cherry "$dirty")"
+  stat+="$(git_stats_merge "$dirty")"
+  stat+="$(git_stats_untracked "$dirty")"
+  stat+="$(git_stats_conflict "$dirty")"
+
+  echo "$stat"
 }
 
 # Git: branch/detached head, dirty status
@@ -54,13 +80,24 @@ function prompt_git {
     stat=$(git_status_dirty)
     name=$(git_branch)
 
-    if [[ -n $stat ]]; then
-      # echo -e "\e[33mTexto en color amarillo\e[0m"
+    if [[ $stat != "" ]]; then
       name="\e[33m$name\e[0m"
     fi
-
     echo -e "$name ${stat}"
   fi
 }
+
+if [[ $1 == "help" ]]; then
+  echo -e "\e[32m\e[0m -> a file was added"
+  echo -e "\e[31m\e[0m -> a file was removed"
+  echo -e "\e[34m\e[0m -> a file was modified"
+  echo -e "\e[35m\e[0m -> a file was renamed"
+  echo -e "\e[36m󰑕\e[0m -> a file has been copied"
+  echo -e "\e[33m󰦦\e[0m -> a file has been merged"
+  echo -e " -> a file is untracked"
+  echo -e "\e[31m\e[0m -> a file has conflicts"
+  echo "leyedas -----"
+  exit
+fi
 
 prompt_git
