@@ -19,13 +19,18 @@ case "$clock" in
 esac
 
 case $BLOCK_BUTTON in
-	1) yq -i '.fmtDate="true"' "$var";;
-  3) yq -i '.fmtDate="false"' "$var" ;;
+	1)
+    if [[ $(yq -r '.fmtDate' "$var") == true ]]; then
+      yq -i '.fmtDate="false"' "$var"
+    else
+      yq -i '.fmtDate="true"' "$var"
+    fi
+    ;;
 esac
 
 
 if [[ $(yq -r '.fmtDate' "$var") == true ]]; then
-  date "+ 󰃮 %Y %b %d (%a)            "
+  date "+ 󰃮 %Y %b %d (%a) $icon %I:%M%p       "
 else
   date "+ $icon %I:%M%p            "
 fi

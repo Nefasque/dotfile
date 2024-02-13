@@ -39,6 +39,9 @@ alias str='/opt/st/reload.sh'
 # fd
 alias fd='~/.cargo/bin/fd'
 
+# clima. wttr.in
+alias clima='curl wttr.in/ve'
+
 # git
 alias g='git'
 alias gs='git status -s'
@@ -60,8 +63,8 @@ export PATH="$PATH:/home/nefasque/.local/bin"
 alias record='cd ~/workspace/repos/byzanz/ && ./byzanz-record-region.sh'
 alias byzanz-record='~/workspace/repos/byzanz/byzanz-record-region.sh'
 
-
-export PS1=" \[\e[31m\] \u  \[\e[m\]\[\e[32m\] \w\[\e[m\]\[\e[35m\]\`git_status_promt\`\[\e[m\]\\n~>"
+#
+export PS1=" \[\e[31m\] \u \[\e[m\]\[\e[32m\] \w\[\e[m\]\[\e[35m\]\`git_status_promt\`\[\e[m\]\\n~>"
 
 
 

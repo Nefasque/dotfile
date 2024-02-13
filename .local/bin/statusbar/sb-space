@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# archivo de prueba
+echo "$HOSTNAMe"
+

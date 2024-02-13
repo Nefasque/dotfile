@@ -1,0 +1,17 @@
+fset missing-tag=!stream&(artist="cansebero"|album=""|title=""|tracknumber=-1|date=-1)
+add ~/Música/
+add ~/Música/*
+clear 
+add ~/Música/cansebero/
+q
+set mpris=false
+player-prev-album
+save lol
+save 
+gra
+bind -f common 3 view playlistn
+bind common <key> colorscheme
+colorscheme dracula
+colorscheme default
+save cansebero
+save

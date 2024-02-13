@@ -15,7 +15,7 @@ fi
 vol=$(amixer get Master | grep -oE -m 1 '[0-9]{1,3}%' | grep -oE '[0-9]{1,3}') 
 if (( $vol == 100 )); then 
   icon="󰕾"
-elif (( $vol > 80 )); then 
+elif (( $vol > 50 )); then 
   icon=" 󰕾"
 elif (( $vol > 30 )); then
   icon=" 󰖀"
